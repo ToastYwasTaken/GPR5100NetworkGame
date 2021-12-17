@@ -48,7 +48,9 @@ public class AIFieldOfView : StateMachineBehaviour
     {
         Vector3 origin = _originTransform.position;
         Debug.DrawLine(origin, new Vector3(origin.x + m_ScanRadius, origin.y, origin.z), Color.cyan);
+        Debug.DrawLine(origin, new Vector3(origin.x + -m_ScanRadius, origin.y, origin.z), Color.cyan);
         Debug.DrawLine(origin, new Vector3(origin.x, origin.y, origin.z + m_ScanRadius), Color.cyan);
+        Debug.DrawLine(origin, new Vector3(origin.x, origin.y, origin.z + -m_ScanRadius), Color.cyan);
         return Physics.OverlapSphere(origin, m_ScanRadius, m_LayerForScanField, queryTrigger);
     }
 

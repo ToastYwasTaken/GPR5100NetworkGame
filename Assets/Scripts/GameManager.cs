@@ -1,8 +1,3 @@
-<<<<<<< Updated upstream
-=======
-using System.Collections;
-using System.Collections.Generic;
->>>>>>> Stashed changes
 using UnityEngine;
 
 /*****************************************************************************
@@ -23,11 +18,10 @@ using UnityEngine;
 ******************************************************************************/
 public class GameManager : MonoBehaviour
 {
-<<<<<<< Updated upstream
     public static GameManager instance;
 
     [SerializeField]
-    private CursorLockMode m_LockMode = CursorLockMode.Locked;
+    private CursorLockMode m_CursorLockMode = CursorLockMode.Locked;
 
     [Header("Enemys")]
     [SerializeField]
@@ -49,7 +43,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        Cursor.lockState = m_LockMode;
+        Cursor.lockState = m_CursorLockMode;
     }
 
     public void SpawnEnemys()
@@ -60,7 +54,4 @@ public class GameManager : MonoBehaviour
         }
 
     }
-=======
-    
->>>>>>> Stashed changes
 }

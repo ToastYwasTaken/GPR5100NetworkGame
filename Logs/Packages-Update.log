@@ -45,3 +45,11 @@ The following packages were added:
   com.unity.timeline@1.5.7
   com.unity.ugui@1.0.0
   com.unity.visualscripting@1.6.1
+
+=== Fri Dec 17 19:53:07 2021
+
+Packages were changed.
+Update Mode: resetToDefaultDependencies
+
+The following packages were removed:
+  com.unity.netcode.gameobjects@1.0.0-pre.3

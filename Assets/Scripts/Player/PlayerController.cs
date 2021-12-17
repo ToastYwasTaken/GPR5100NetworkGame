@@ -1,7 +1,4 @@
-<<<<<<< Updated upstream
 using Unity.Netcode;
-=======
->>>>>>> Stashed changes
 using UnityEngine;
 
 /*****************************************************************************
@@ -20,7 +17,6 @@ using UnityEngine;
 * History:
 *	17.12.21	RK	Created
 ******************************************************************************/
-<<<<<<< Updated upstream
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : NetworkBehaviour
 {
@@ -28,12 +24,6 @@ public class PlayerController : NetworkBehaviour
     private Transform m_PlayerCamera;
     [SerializeField]
     private Collider playerCollider;
-=======
-public class PlayerController : MonoBehaviour
-{
-    [SerializeField]
-    private Camera m_PlayerCamera;
->>>>>>> Stashed changes
 
     [Header("Move Properties")]
     [SerializeField]
@@ -54,15 +44,9 @@ public class PlayerController : MonoBehaviour
     private float m_Endurance = 3f;
     private float currentEndurance = 3f;
     [SerializeField]
-<<<<<<< Updated upstream
     private float m_RefreshEnduranceOffset = 1f;
     [SerializeField]
     private float m_ReduceEnduranceOffset = 1f;
-=======
-    private float m_RefreshOffset = 1f;
-    [SerializeField]
-    private float m_EnduranceOffset = 1f;
->>>>>>> Stashed changes
 
     [Header("Jump Properties")]
     [SerializeField]
@@ -76,17 +60,12 @@ public class PlayerController : MonoBehaviour
 
     [Header("Mouse Properties")]
     [SerializeField]
-<<<<<<< Updated upstream
     private bool m_UseMouseAxisRaw = false;
     [SerializeField]
     private float m_RotationSpeed = 100f;
     [SerializeField, Range(0.0f, 1.0f)]
     private float m_Sensitivity = 1.0f;
     [SerializeField, Range(0f, 360f)]
-=======
-    private float m_RotationSpeed = 5f;
-    [SerializeField]
->>>>>>> Stashed changes
     private float m_MaxVerticalAngle = 60f;
     private float currentAngle = 0f;
 
@@ -109,7 +88,6 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         playerRig = GetComponent<Rigidbody>();
-<<<<<<< Updated upstream
         playerCollider = GetComponent<Collider>();
         startPosition = playerRig.transform.position;
         currentEndurance = m_Endurance;
@@ -117,37 +95,21 @@ public class PlayerController : MonoBehaviour
 
     public override void OnNetworkSpawn()
     {
-        m_PlayerCamera.GetComponent<Camera>().gameObject.SetActive(IsOwner);
-=======
-        startPosition = playerRig.transform.position;
-        currentEndurance = m_Endurance;
-
-        if (m_PlayerCamera == null)
-        {
-            Debug.LogError("Missing Playercamera!");
-            return;
-        }
->>>>>>> Stashed changes
+        m_PlayerCamera.GetComponentInChildren<Camera>().gameObject.SetActive(IsOwner);
     }
 
     private void Update()
     {
-<<<<<<< Updated upstream
         if (!IsOwner) return;
 
-=======
->>>>>>> Stashed changes
         // Player springt
         Jump("Jump");
     }
 
     private void FixedUpdate()
     {
-<<<<<<< Updated upstream
         if (!IsOwner) return;
 
-=======
->>>>>>> Stashed changes
         // Werte für das Gehen/Rennen
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
@@ -162,15 +124,12 @@ public class PlayerController : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
-<<<<<<< Updated upstream
         if (m_UseMouseAxisRaw)
         {
             mouseX = Input.GetAxisRaw("Mouse X");
             mouseY = Input.GetAxisRaw("Mouse Y");
         }
 
-=======
->>>>>>> Stashed changes
         // Taste für das Sprinten gedrückt
         runKeyPressed = Input.GetButton("Sprint");
 
@@ -229,11 +188,8 @@ public class PlayerController : MonoBehaviour
         Vector3 mouseInput = new Vector3(_mouseX, _mouseY, 0f);
 
         // Spieler sieht nach oben oder unten
-<<<<<<< Updated upstream
+
         currentAngle += -mouseInput.y * m_RotationSpeed * m_Sensitivity * Time.deltaTime;
-=======
-        currentAngle += -mouseInput.y * m_RotationSpeed * Time.deltaTime;
->>>>>>> Stashed changes
 
         // Winkel der Kamera auf min und max begrenzen
         currentAngle = Mathf.Clamp(currentAngle, 
@@ -241,21 +197,13 @@ public class PlayerController : MonoBehaviour
             m_MaxVerticalAngle);
 
         // Rotationswinkel zuweisen
-<<<<<<< Updated upstream
         m_PlayerCamera.localEulerAngles =
             new Vector3(currentAngle, 0, 0);
 
         // Spieler dreht sich nach links oder rechts
         Quaternion deltaRotationX = Quaternion.Euler(0, m_RotationSpeed * m_Sensitivity *
             Time.deltaTime * mouseInput.x, 0);
-=======
-        m_PlayerCamera.transform.localEulerAngles =
-            new Vector3(currentAngle, 0, 0);
 
-        // Spieler dreht sich nach links oder rechts
-        Quaternion deltaRotationX = Quaternion.Euler(0, m_RotationSpeed
-            * Time.deltaTime * mouseInput.x, 0);
->>>>>>> Stashed changes
         playerRig.MoveRotation(playerRig.rotation * deltaRotationX);
     }
 
@@ -267,11 +215,7 @@ public class PlayerController : MonoBehaviour
     {
         if (m_IsRunning)
         {
-<<<<<<< Updated upstream
             currentEndurance -= Time.deltaTime * m_ReduceEnduranceOffset;
-=======
-            currentEndurance -= Time.deltaTime * m_EnduranceOffset;
->>>>>>> Stashed changes
         }
         else
         {
@@ -279,11 +223,7 @@ public class PlayerController : MonoBehaviour
             {
                 if (currentEndurance > m_Endurance) return;
 
-<<<<<<< Updated upstream
                 currentEndurance += Time.deltaTime * m_RefreshEnduranceOffset;
-=======
-                currentEndurance += Time.deltaTime * m_RefreshOffset;
->>>>>>> Stashed changes
             }
         }
     }
@@ -306,15 +246,10 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void GroundCheck()
     {
-<<<<<<< Updated upstream
         float distance = m_GroundDistance + playerCollider.transform.localScale.y;
 
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down),
             out RaycastHit hit, distance, m_GroundLayer, m_GroundInteraction))
-=======
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down),
-            out RaycastHit hit, m_GroundDistance, m_GroundLayer, m_GroundInteraction))
->>>>>>> Stashed changes
         {
             m_IsGrounded = true;
             m_IsJumping = false;

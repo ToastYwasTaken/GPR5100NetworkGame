@@ -1,9 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-<<<<<<< Updated upstream
 using Unity.Netcode;
-=======
->>>>>>> Stashed changes
 using UnityEngine;
 
 /*****************************************************************************
@@ -22,11 +19,8 @@ using UnityEngine;
 * History:
 *	17.12.21	RK	Created
 ******************************************************************************/
-<<<<<<< Updated upstream
+
 public class Shoot : NetworkBehaviour
-=======
-public class Shoot : MonoBehaviour
->>>>>>> Stashed changes
 {
    
 }

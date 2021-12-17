@@ -31,11 +31,8 @@ public class AIBehaviourChase : AIFieldOfView
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Vector3 originPos = animator.gameObject.transform.position;
-<<<<<<< Updated upstream
+       
         Player player = GetClosestPlayer(animator);
-=======
-        Player player = GetClosetPlayer(animator);
->>>>>>> Stashed changes
 
         if (player != null)
         {
@@ -58,11 +55,7 @@ public class AIBehaviourChase : AIFieldOfView
         return agent.remainingDistance <= attackDistance;
     }
 
-<<<<<<< Updated upstream
     private Player GetClosestPlayer(Animator _animator)
-=======
-    private Player GetClosetPlayer(Animator _animator)
->>>>>>> Stashed changes
     {
         Player[] players = AIData.GetPlayers().ToArray();
         Player closetPlayer = null;

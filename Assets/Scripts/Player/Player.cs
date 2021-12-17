@@ -24,12 +24,9 @@ public class Player : MonoBehaviour
     public event OnPlayerEventHandler OnPlayerDieEvent;
 
     [SerializeField]
-<<<<<<< Updated upstream
     private bool m_GodMode = false;
 
     [SerializeField]
-=======
->>>>>>> Stashed changes
     private float m_health = 100f;
     public float Health
     {
@@ -62,11 +59,8 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-<<<<<<< Updated upstream
         if (m_GodMode) return;
 
-=======
->>>>>>> Stashed changes
         if (collision.gameObject.CompareTag(AIData.tagEnemy))
         {
             Health -= collision.gameObject.GetComponent<Enemy>().Damage;

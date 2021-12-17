@@ -303,11 +303,31 @@
 -r:"C:/Program Files/Unity/Hub/Editor/2021.1.28f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/System.Xml.dll"
 -r:"C:/Program Files/Unity/Hub/Editor/2021.1.28f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/System.Xml.Linq.dll"
 -r:"C:/Program Files/Unity/Hub/Editor/2021.1.28f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll"
+<<<<<<< HEAD
+<<<<<<< Updated upstream
+<<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
+-r:"E:/GitHub/GPR5100NetworkGame/Library/PackageCache/com.unity.ext.nunit@1.0.6/net35/unity-custom/nunit.framework.dll"
+-r:"E:/GitHub/GPR5100NetworkGame/Library/PackageCache/com.unity.nuget.mono-cecil@1.10.1/Mono.Cecil.dll"
+-r:"E:/GitHub/GPR5100NetworkGame/Library/PackageCache/com.unity.nuget.mono-cecil@1.10.1/Mono.Cecil.Mdb.dll"
+-r:"E:/GitHub/GPR5100NetworkGame/Library/PackageCache/com.unity.nuget.mono-cecil@1.10.1/Mono.Cecil.Pdb.dll"
+-r:"E:/GitHub/GPR5100NetworkGame/Library/PackageCache/com.unity.nuget.mono-cecil@1.10.1/Mono.Cecil.Rocks.dll"
+<<<<<<< Updated upstream
+=======
+=======
+>>>>>>> b4f69b31a2055830977588039b42bd968bae4987
 -r:"C:/Users/x79/Documents/GitHub/GPR5100NetworkGame/Library/PackageCache/com.unity.ext.nunit@1.0.6/net35/unity-custom/nunit.framework.dll"
 -r:"C:/Users/x79/Documents/GitHub/GPR5100NetworkGame/Library/PackageCache/com.unity.nuget.mono-cecil@1.10.1/Mono.Cecil.dll"
 -r:"C:/Users/x79/Documents/GitHub/GPR5100NetworkGame/Library/PackageCache/com.unity.nuget.mono-cecil@1.10.1/Mono.Cecil.Mdb.dll"
 -r:"C:/Users/x79/Documents/GitHub/GPR5100NetworkGame/Library/PackageCache/com.unity.nuget.mono-cecil@1.10.1/Mono.Cecil.Pdb.dll"
 -r:"C:/Users/x79/Documents/GitHub/GPR5100NetworkGame/Library/PackageCache/com.unity.nuget.mono-cecil@1.10.1/Mono.Cecil.Rocks.dll"
+<<<<<<< HEAD
+>>>>>>> b4f69b31a2055830977588039b42bd968bae4987
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> b4f69b31a2055830977588039b42bd968bae4987
 -r:"Library/Bee/artifacts/1900b0aEDbg.dag/UnityEngine.TestRunner.ref.dll"
 "Library/PackageCache/com.unity.test-framework@1.1.29/UnityEditor.TestRunner/Api/CallbacksDelegator.cs"
 "Library/PackageCache/com.unity.test-framework@1.1.29/UnityEditor.TestRunner/Api/CallbacksDelegatorListener.cs"

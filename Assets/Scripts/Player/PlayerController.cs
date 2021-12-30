@@ -63,7 +63,7 @@ public class PlayerController : NetworkBehaviour
     private bool m_UseMouseAxisRaw = false;
     [SerializeField]
     private float m_RotationSpeed = 100f;
-    [SerializeField, Range(0.0f, 1.0f)]
+    [SerializeField, Range(0.0f, 2.0f)]
     private float m_Sensitivity = 1.0f;
     [SerializeField, Range(0f, 360f)]
     private float m_MaxVerticalAngle = 60f;
@@ -103,7 +103,7 @@ public class PlayerController : NetworkBehaviour
         if (!IsOwner) return;
 
         // Player springt
-        Jump("Jump");
+        Jump(Controls.Jump());
     }
 
     private void FixedUpdate()
@@ -111,27 +111,15 @@ public class PlayerController : NetworkBehaviour
         if (!IsOwner) return;
 
         // Werte für das Gehen/Rennen
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-
-        if (m_UseAxisRaw)
-        {
-            horizontal = Input.GetAxisRaw("Horizontal");
-            vertical = Input.GetAxisRaw("Vertical");
-        }
+        float horizontal = Controls.Horizontal(m_UseAxisRaw);
+        float vertical = Controls.Vertical(m_UseAxisRaw);
 
         // Mouse Steuerung
-        float mouseX = Input.GetAxis("Mouse X");
-        float mouseY = Input.GetAxis("Mouse Y");
-
-        if (m_UseMouseAxisRaw)
-        {
-            mouseX = Input.GetAxisRaw("Mouse X");
-            mouseY = Input.GetAxisRaw("Mouse Y");
-        }
+        float mouseX = Controls.MouseX(m_UseMouseAxisRaw);
+        float mouseY = Controls.MouseY(m_UseMouseAxisRaw);
 
         // Taste für das Sprinten gedrückt
-        runKeyPressed = Input.GetButton("Sprint");
+        runKeyPressed = Controls.Sprint();
 
         // Entscheidet zwischen Gehen und Rennen
         if (runKeyPressed && (currentEndurance > 0) && m_CanRun && m_IsGrounded)
@@ -232,9 +220,9 @@ public class PlayerController : NetworkBehaviour
     /// Spieler springt
     /// </summary>
     /// <param name="_inputKey"></param>
-    private void Jump(string _inputKey)
+    private void Jump(bool _inputKey)
     {
-        if (Input.GetButton(_inputKey) && m_CanJump && !m_IsJumping && m_IsGrounded)
+        if (_inputKey && m_CanJump && !m_IsJumping && m_IsGrounded)
         {
             m_IsJumping = true;
             playerRig.AddForce(transform.up * m_JumpForce, m_ForceMode);
@@ -249,10 +237,11 @@ public class PlayerController : NetworkBehaviour
         float distance = m_GroundDistance + playerCollider.transform.localScale.y;
 
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down),
-            out RaycastHit hit, distance, m_GroundLayer, m_GroundInteraction))
+           distance, m_GroundLayer, m_GroundInteraction))
         {
-            m_IsGrounded = true;
-            m_IsJumping = false;
+                m_IsGrounded = true;
+                m_IsJumping = false;
+       
         }
         else
         {

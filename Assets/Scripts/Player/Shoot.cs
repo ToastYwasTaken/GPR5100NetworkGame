@@ -22,5 +22,18 @@ using UnityEngine;
 
 public class Shoot : NetworkBehaviour
 {
-   
+
+    private void Update()
+    {
+        if (Controls.MouseButtonLeft())
+        {
+            Debug.Log("Player Shoot!");
+        }
+
+        if (Controls.MouseButtonRight())
+        {
+            Debug.Log("Player Scope!");
+        }
+    }
+
 }

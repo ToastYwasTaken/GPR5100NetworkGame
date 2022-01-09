@@ -12,7 +12,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private const int max_ccu = 8;
 
-    private RoomOptions options;
+    private RoomOptions options = new RoomOptions(); // <- Create new RoomOptions, before set options
 
     [Header("Panels")]
     [SerializeField]
@@ -26,10 +26,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         joinFriendPanel.SetActive(false);
         roomPanel.SetActive(false);
+
         if (PhotonNetwork.IsConnected)
         {
             return;
         }
+
         PhotonNetwork.ConnectUsingSettings();
         Debug.Log("Trying to connect");
     }
@@ -47,17 +49,19 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         mainMenuPanel.SetActive(true);
         Debug.Log("Connected");
+        SetOptionsRandomLobby(); // <- Call here (not by joining the lobby)
     }
 
     public override void OnJoinedLobby()
     {
         Debug.Log("Joined lobby");
+       // SetOptionsRandomLobby(); -> Move to Callback OnConnected() 
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
         Debug.Log("Joining random room failed");
-        SetOptionsRandomLobby();
+        
         PhotonNetwork.CreateRoom(null, options);
     }
 
@@ -102,7 +106,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void BTN_StartGameIfLobbyLeader()
     {
-
+        StartCoroutine(ExtendedScene.Loading(1)); // <- Loading Game Scene
     }
 
 

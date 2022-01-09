@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
 /*****************************************************************************
@@ -19,20 +18,51 @@ using UnityEngine;
 *	17.12.21	RK	Created
 ******************************************************************************/
 
-//public class Shoot : NetworkBehaviour
-//{
+public class Shoot : MonoBehaviourPun
+{
+    [SerializeField] private Transform m_RayOrigin;
+    [SerializeField] private float m_RayLength;
 
-//    private void Update()
-//    {
-//        if (Controls.MouseButtonLeft())
-//        {
-//            Debug.Log("Player Shoot!");
-//        }
+    private void Update()
+    {
+        if (!photonView.IsMine) return;
 
-//        if (Controls.MouseButtonRight())
-//        {
-//            Debug.Log("Player Scope!");
-//        }
-//    }
+        if (GameManager.instance.IsPause) return;
 
-//}
+        if (Controls.MouseButtonLeft())
+        {        
+            photonView.RPC("Shooting", RpcTarget.All);
+        }
+
+        if (Controls.MouseButtonRight())
+        {
+            Debug.Log("Player Scope!");
+        }
+    }
+
+    [PunRPC]
+    private void Shooting()
+    {
+        RaycastHit hit;
+
+        Debug.Log("Fire");
+        if (Physics.Raycast(m_RayOrigin.position, m_RayOrigin.TransformDirection(Vector3.forward),
+                out hit, m_RayLength))
+        {
+            Debug.DrawRay(m_RayOrigin.position, m_RayOrigin.TransformDirection(Vector3.forward) * hit.distance, Color.red);
+            Debug.Log($"Player hit {hit.collider.name}");
+        }
+        else
+        {
+            Debug.DrawRay(m_RayOrigin.position, m_RayOrigin.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+           
+        }
+    }
+
+    private void Fire(WeaponType weapon)
+    {
+       
+
+    }
+
+}

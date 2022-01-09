@@ -50,6 +50,13 @@ public static class AIData
         return players;
     }
 
+    public static void TrimPlayers()
+    {
+        players.TrimExcess();
+    }
 
-
+    public static void ClearPlayers()
+    {
+        players.Clear();
+    }
 }

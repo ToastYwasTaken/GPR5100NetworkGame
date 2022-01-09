@@ -59,4 +59,9 @@ public static class Controls
     {
         return Input.GetButton("Sprint");
     }
+
+    public static bool Escape()
+    {
+        return Input.GetButtonDown("Cancel");
+    }
 }

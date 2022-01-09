@@ -16,6 +16,7 @@
 ******************************************************************************/
 
 public delegate void OnPlayerEventHandler();
+public delegate void OnPlayerEventHandler<T>(T _x);
 
 public class PlayerEvents
 {

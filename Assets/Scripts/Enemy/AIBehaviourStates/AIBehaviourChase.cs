@@ -68,6 +68,12 @@ public class AIBehaviourChase : AIFieldOfView
 
             for (int i = 0; i < players.Length; i++)
             {
+                if (players[i] == null)
+                {
+                    AIData.TrimPlayers();
+                    continue;
+                }
+
                 Vector3 separation = originPos - players[i].transform.position;
                 float distance = separation.sqrMagnitude;
 

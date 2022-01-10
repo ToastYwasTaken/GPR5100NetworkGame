@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,6 +21,9 @@ using UnityEngine;
 ******************************************************************************/
 public class Enemy : MonoBehaviour
 {
+    // Events
+    public event OnAIEventHandler OnEnemyDieEvent;
+
     private Animator animator;
 
     // States
@@ -60,12 +64,25 @@ public class Enemy : MonoBehaviour
         Debug.Log($"{gameObject.name} attack Player!");
     }
 
+    /// <summary>
+    /// Gegner erhaelt schaden
+    /// </summary>
+    /// <param name="_damage"></param>
+    public void TakeDamage(float _damage)
+    {
+        if (Health >= 0f)
+        {
+            Health -= _damage;
+        }
+    }
+
 
     /// <summary>
     /// Enemy zerstoeren
     /// </summary>
     private void Die()
     {
-        Destroy(gameObject);
+        OnEnemyDieEvent?.Invoke();
+        PhotonNetwork.Destroy(gameObject);
     }
 }

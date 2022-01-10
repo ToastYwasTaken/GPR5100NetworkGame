@@ -1,4 +1,4 @@
-using Unity.Netcode;
+using Photon.Pun;
 using UnityEngine;
 
 /*****************************************************************************
@@ -6,7 +6,7 @@ using UnityEngine;
 * File   : PlayerController.cs
 * Date   : 17.12.2021
 * Author : René Kraus (RK)
-* Version: 1.0
+* Version: 1.1
 *
 * These coded instructions, statements, and computer programs contain
 * proprietary information of the author and are protected by Federal
@@ -16,70 +16,49 @@ using UnityEngine;
 *
 * History:
 *	17.12.21	RK	Created
+*	05.01.22    RK  Added Gravtiy Multiplier
 ******************************************************************************/
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerController : NetworkBehaviour
+public class PlayerController : MonoBehaviourPun
 {
-    [SerializeField]
-    private Transform m_PlayerCamera;
-    [SerializeField]
-    private Collider playerCollider;
+    [SerializeField] private Transform m_PlayerCamera;
+    [SerializeField] private Collider playerCollider;
 
     [Header("Move Properties")]
-    [SerializeField]
-    private bool m_UseAxisRaw = false;
-    [SerializeField]
-    private float m_Speed = 5f;
-    [SerializeField]
-    private bool m_CanRun = true;
-    [SerializeField]
-    private float m_RunSpeed = 10f;
-    [SerializeField]
-    private bool m_IsRunning = false;
+    [SerializeField] private bool m_UseAxisRaw = false;
+    [SerializeField] private float m_Speed = 5f;
+    [SerializeField] private bool m_CanRun = true;
+    [SerializeField] private float m_RunSpeed = 10f;
+    [SerializeField] private bool m_IsRunning = false;
 
     [Header("Run Endurance Properties")]
-    [SerializeField]
-    private bool m_UseEndurance = true;
-    [SerializeField]
-    private float m_Endurance = 3f;
+    [SerializeField] private bool m_UseEndurance = true;
+    [SerializeField] private float m_Endurance = 3f;
     private float currentEndurance = 3f;
-    [SerializeField]
-    private float m_RefreshEnduranceOffset = 1f;
-    [SerializeField]
-    private float m_ReduceEnduranceOffset = 1f;
+    [SerializeField] private float m_RefreshEnduranceOffset = 1f;
+    [SerializeField] private float m_ReduceEnduranceOffset = 1f;
 
     [Header("Jump Properties")]
-    [SerializeField]
-    private bool m_CanJump = true;
-    [SerializeField]
-    private float m_JumpForce = 20f;
-    [SerializeField]
-    private ForceMode m_ForceMode = ForceMode.Force;
-    [SerializeField]
-    private bool m_IsJumping = false;
+    [SerializeField] private bool m_CanJump = true;
+    [SerializeField] private float m_JumpForce = 20f;
+    [SerializeField] private ForceMode m_ForceMode = ForceMode.Force;
+    [SerializeField] private float m_JumpingControlMultiplier = 1f;
+    [SerializeField] private float m_GravityMultiplier = 1f;
+    [SerializeField] private bool m_OnAir = false;
 
     [Header("Mouse Properties")]
-    [SerializeField]
-    private bool m_UseMouseAxisRaw = false;
-    [SerializeField]
-    private float m_RotationSpeed = 100f;
-    [SerializeField, Range(0.0f, 2.0f)]
-    private float m_Sensitivity = 1.0f;
-    [SerializeField, Range(0f, 360f)]
-    private float m_MaxVerticalAngle = 60f;
+    [SerializeField] private bool m_UseMouseAxisRaw = false;
+    [SerializeField] private float m_RotationSpeed = 100f;
+    [SerializeField, Range(0.0f, 2.0f)] private float m_Sensitivity = 1.0f;
+    [SerializeField, Range(0f, 360f)] private float m_MaxVerticalAngle = 60f;
     private float currentAngle = 0f;
 
     [Header("Ground Properties")]
-    [SerializeField]
-    private bool m_IsGrounded = true;
-    [SerializeField]
-    private float m_GroundDistance = 1f;
-    [SerializeField]
-    private LayerMask m_GroundLayer = 0;
-    [SerializeField]
-    private QueryTriggerInteraction m_GroundInteraction = QueryTriggerInteraction.UseGlobal;
-    [SerializeField]
-    private float m_FallDownLimit = -5f;
+    [SerializeField] private bool m_IsGrounded = true;
+    [SerializeField] private float m_GroundDistance = 1f;
+    [SerializeField] private LayerMask m_GroundLayer = 0;
+    [SerializeField] private QueryTriggerInteraction m_GroundInteraction = QueryTriggerInteraction.UseGlobal;
+    [SerializeField] private float m_FallDownLimit = -5f;
 
     private Rigidbody playerRig;
     private Vector3 startPosition = Vector3.zero;
@@ -91,16 +70,15 @@ public class PlayerController : NetworkBehaviour
         playerCollider = GetComponent<Collider>();
         startPosition = playerRig.transform.position;
         currentEndurance = m_Endurance;
-    }
 
-    public override void OnNetworkSpawn()
-    {
-        m_PlayerCamera.GetComponentInChildren<Camera>().gameObject.SetActive(IsOwner);
+        m_PlayerCamera.GetComponentInChildren<Camera>().gameObject.SetActive(photonView.IsMine);
     }
 
     private void Update()
     {
-        if (!IsOwner) return;
+        if (!photonView.IsMine) return;
+
+        if (GameManager.instance.IsPause) return;
 
         // Player springt
         Jump(Controls.Jump());
@@ -108,7 +86,9 @@ public class PlayerController : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        if (!IsOwner) return;
+        if (!photonView.IsMine) return;
+
+        if (GameManager.instance.IsPause) return;
 
         // Werte für das Gehen/Rennen
         float horizontal = Controls.Horizontal(m_UseAxisRaw);
@@ -120,6 +100,8 @@ public class PlayerController : NetworkBehaviour
 
         // Taste für das Sprinten gedrückt
         runKeyPressed = Controls.Sprint();
+
+       
 
         // Entscheidet zwischen Gehen und Rennen
         if (runKeyPressed && (currentEndurance > 0) && m_CanRun && m_IsGrounded)
@@ -136,7 +118,7 @@ public class PlayerController : NetworkBehaviour
         }
 
         // Player zur Maus ausrichten
-        Rotate(mouseX, mouseY); 
+        Rotate(mouseX, mouseY);
 
         // Ausdauer Berücksichtigen
         if (m_UseEndurance)
@@ -161,11 +143,20 @@ public class PlayerController : NetworkBehaviour
     {
         Vector3 playerMovement = new Vector3(_horizontal, 0f, _vertical);
 
+        if (m_OnAir)
+        {
+            playerMovement = OnAir(playerMovement);
+        }
+        else
+        {
+            //playerRig.velocity = Vector3.zero; // <-- Blockiert springen, verbessert aber die Bewegungsabläufe Online
+        }
+
         playerRig.MovePosition(playerRig.position + playerMovement.z *
-            transform.forward * _speed * Time.deltaTime);
+            transform.forward * _speed * Time.fixedDeltaTime);
 
         playerRig.MovePosition(playerRig.position + playerMovement.x *
-           transform.right * _speed * Time.deltaTime);
+           transform.right * _speed * Time.fixedDeltaTime);
     }
 
     /// <summary>
@@ -175,12 +166,15 @@ public class PlayerController : NetworkBehaviour
     {
         Vector3 mouseInput = new Vector3(_mouseX, _mouseY, 0f);
 
-        // Spieler sieht nach oben oder unten
+        
+        // Verhindert ungewollte Bewegung
+        playerRig.angularVelocity = Vector3.zero;
 
+        // Spieler sieht nach oben oder unten
         currentAngle += -mouseInput.y * m_RotationSpeed * m_Sensitivity * Time.deltaTime;
 
         // Winkel der Kamera auf min und max begrenzen
-        currentAngle = Mathf.Clamp(currentAngle, 
+        currentAngle = Mathf.Clamp(currentAngle,
             -m_MaxVerticalAngle,
             m_MaxVerticalAngle);
 
@@ -190,9 +184,9 @@ public class PlayerController : NetworkBehaviour
 
         // Spieler dreht sich nach links oder rechts
         Quaternion deltaRotationX = Quaternion.Euler(0, m_RotationSpeed * m_Sensitivity *
-            Time.deltaTime * mouseInput.x, 0);
+            Time.fixedDeltaTime * mouseInput.x, 0);
 
-        playerRig.MoveRotation(playerRig.rotation * deltaRotationX);
+       playerRig.MoveRotation(playerRig.rotation * deltaRotationX);
     }
 
     /// <summary>
@@ -222,11 +216,26 @@ public class PlayerController : NetworkBehaviour
     /// <param name="_inputKey"></param>
     private void Jump(bool _inputKey)
     {
-        if (_inputKey && m_CanJump && !m_IsJumping && m_IsGrounded)
+        if (_inputKey && m_CanJump && !m_OnAir && m_IsGrounded)
         {
-            m_IsJumping = true;
             playerRig.AddForce(transform.up * m_JumpForce, m_ForceMode);
         }
+    }
+
+    /// <summary>
+    /// Verhalten im Sprung
+    /// </summary>
+    /// <param name="_movement"></param>
+    /// <returns></returns>
+    private Vector3 OnAir(Vector3 _movement)
+    {
+        Vector3 airMovement = _movement;
+
+        airMovement += Physics.gravity * m_GravityMultiplier * Time.fixedDeltaTime;
+        airMovement.x = (_movement.x * m_Speed) * m_JumpingControlMultiplier;
+        airMovement.y = (_movement.y * m_Speed) * m_JumpingControlMultiplier;
+
+        return airMovement;
     }
 
     /// <summary>
@@ -239,13 +248,14 @@ public class PlayerController : NetworkBehaviour
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down),
            distance, m_GroundLayer, m_GroundInteraction))
         {
-                m_IsGrounded = true;
-                m_IsJumping = false;
-       
+            m_IsGrounded = true;
+            m_OnAir = false;
+
         }
         else
         {
             m_IsGrounded = false;
+            m_OnAir = true;
         }
     }
 

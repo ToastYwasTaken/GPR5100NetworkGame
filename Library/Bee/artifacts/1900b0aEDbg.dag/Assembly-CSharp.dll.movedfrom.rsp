@@ -1,11 +1,4 @@
-Library\Bee\artifacts\movedfrom\Unity.Burst.Editor.ref.dll_5727298766333499058.movedfrom
-Library\Bee\artifacts\movedfrom\Unity.Burst.ref.dll_12237535163869132015.movedfrom
-Library\Bee\artifacts\movedfrom\Unity.Collections.ref.dll_9619059363588973300.movedfrom
-Library\Bee\artifacts\movedfrom\Unity.Mathematics.Editor.ref.dll_13577207098549779084.movedfrom
-Library\Bee\artifacts\movedfrom\Unity.Mathematics.ref.dll_648565151250324341.movedfrom
-Library\Bee\artifacts\movedfrom\Unity.Netcode.Components.ref.dll_17322170971988333985.movedfrom
-Library\Bee\artifacts\movedfrom\Unity.Netcode.Editor.ref.dll_6415259522333336648.movedfrom
-Library\Bee\artifacts\movedfrom\Unity.Netcode.Runtime.ref.dll_15891231650070621539.movedfrom
+Library\Bee\artifacts\movedfrom\Unity.2D.Sprite.Editor.ref.dll_101856045376744017.movedfrom
 Library\Bee\artifacts\movedfrom\Unity.PlasticSCM.Editor.ref.dll_254793875310551325.movedfrom
 Library\Bee\artifacts\movedfrom\Unity.Rider.Editor.ref.dll_565157460453298584.movedfrom
 Library\Bee\artifacts\movedfrom\Unity.TextMeshPro.Editor.ref.dll_4028791150417061583.movedfrom
@@ -99,10 +92,4 @@ Library\Bee\artifacts\movedfrom\UnityEngine.VirtualTexturingModule.dll_121523713
 Library\Bee\artifacts\movedfrom\UnityEngine.VRModule.dll_14410823667499394642.movedfrom
 Library\Bee\artifacts\movedfrom\UnityEngine.WindModule.dll_17960590067214579118.movedfrom
 Library\Bee\artifacts\movedfrom\UnityEngine.XRModule.dll_18067398039220401072.movedfrom
-Library\Bee\artifacts\movedfrom\Unity.Burst.Cecil.dll_15762409898238184830.movedfrom
-Library\Bee\artifacts\movedfrom\Unity.Burst.Cecil.Mdb.dll_7477645475860070459.movedfrom
-Library\Bee\artifacts\movedfrom\Unity.Burst.Cecil.Pdb.dll_9158183507085181374.movedfrom
-Library\Bee\artifacts\movedfrom\Unity.Burst.Cecil.Rocks.dll_18019541951989712286.movedfrom
-Library\Bee\artifacts\movedfrom\Unity.Burst.Unsafe.dll_311098778726542261.movedfrom
-Library\Bee\artifacts\movedfrom\Unity.Collections.LowLevel.ILSupport.dll_2782049360539221034.movedfrom
 Library\Bee\artifacts\movedfrom\Unity.VisualScripting.Antlr3.Runtime.dll_9104629830347765172.movedfrom

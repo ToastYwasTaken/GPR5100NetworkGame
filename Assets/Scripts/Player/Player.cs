@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,12 +23,12 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public event OnPlayerEventHandler OnPlayerDieEvent;
+    public event OnPlayerEventHandler<float> OnPLayerTakeDamageEvent;
 
-    [SerializeField]
-    private bool m_GodMode = false;
 
-    [SerializeField]
-    private float m_health = 100f;
+    [SerializeField] private bool m_GodMode = false;
+
+    [SerializeField] private float m_health = 100f;
     public float Health
     {
         get => m_health;
@@ -38,24 +39,32 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void Awake()
-    {
-        
-    }
+    [SerializeField] private int m_PlayerId;
+    public int PlayerId { get => m_PlayerId; set => m_PlayerId=value; }
 
+    /// <summary>
+    /// Spieler erhält schaden
+    /// </summary>
+    /// <param name="_damage"></param>
+    public void TakeDamage(float _damage)
+    {
+        if (Health >= 0f)
+        {
+            Health -= _damage;
+            OnPLayerTakeDamageEvent?.Invoke(Health);
+        }
+    }
 
     /// <summary>
     /// Player zerstoeren
     /// </summary>
-    private void Die()
+    public void Die()
     {
-        OnPlayerDieEvent?.Invoke();
-
         AIData.RemovePlayer(this);
 
-        Destroy(gameObject);
+        OnPlayerDieEvent?.Invoke();
+        //PhotonNetwork.Destroy(gameObject);
     }
-
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -64,6 +73,7 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag(AIData.tagEnemy))
         {
             Health -= collision.gameObject.GetComponent<Enemy>().Damage;
+            OnPLayerTakeDamageEvent?.Invoke(Health);
         }
     }
 

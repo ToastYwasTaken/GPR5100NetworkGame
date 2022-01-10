@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 /*****************************************************************************
 * Project: GPR5100 Networkgame
@@ -20,6 +21,7 @@ using UnityEngine;
 ******************************************************************************/
 public class Spawner 
 {
+
     public GameObject Spawn(GameObject _prefab, Transform _spawnOrigin)
     {
         Quaternion spawnRotation = Quaternion.Euler(0f, Random.Range(0, 360), 0);
@@ -42,6 +44,31 @@ public class Spawner
             spawns[i]  = Object.Instantiate(_prefab, spawnPos, spawnRotation);
         }
 
+        return spawns;
+    }
+
+    public GameObject NetworkSpawn(string _prefabName, Transform _spawnOrigin)
+    {
+        Quaternion spawnRotation = Quaternion.Euler(0f, Random.Range(0, 360), 0);
+        GameObject obj = PhotonNetwork.InstantiateRoomObject(_prefabName, _spawnOrigin.position, spawnRotation);
+        return obj;
+    }
+
+    public GameObject[] NetworkSpawn(string _prefabName, int _count, Transform _spawnOrigin, float _spawnDistance)
+    {
+        GameObject[] spawns = new GameObject[_count];
+
+        for (int i = 0; i < _count; i++)
+        {
+            Vector3 spawnPos = _spawnOrigin.position + new Vector3(
+                Random.Range(-_spawnDistance, _spawnDistance),
+                0f,
+                Random.Range(-_spawnDistance, _spawnDistance));
+
+            Quaternion spawnRotation = Quaternion.Euler(0f, Random.Range(0, 360), 0);
+            spawns[i] = PhotonNetwork.InstantiateRoomObject(_prefabName, spawnPos, spawnRotation);
+        }
+   
         return spawns;
     }
 
